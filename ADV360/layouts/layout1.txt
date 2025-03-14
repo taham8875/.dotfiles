@@ -8,6 +8,8 @@
 [esc]>[caps]
 [caps]>[esc]
 [eql]>[grav]
+[home]>[prnt]
+[end]>[app]
 
 [up]>[down]
 [down]>[up]
@@ -33,6 +35,11 @@
 [del]>[keys]
 [scol]>[0]
 [spc]>[spc]
+[up]>[home]
+[left]>[pgup]
+[home]>[prnt]
+[end]>[app]
+
 {4}>{s9}{x1}{-lshf}{9}{+lshf}
 {7}>{s9}{x1}{-lshf}{0}{+lshf}
 
@@ -77,8 +84,6 @@
 [pgup]>[defs]
 [rwin]>[ralt]
 [down]>[pgdn]
-[up]>[pgup]
-[left]>[home]
 [rght]>[end]
 {4}>{s9}{x1}{-lshf}{9}{+lshf}
 {7}>{s9}{x1}{-lshf}{0}{+lshf}
