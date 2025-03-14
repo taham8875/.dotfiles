@@ -18,6 +18,9 @@
 {2}>{s9}{obrk}
 {9}>{s9}{cbrk}
 
+{5}>{s9}{-lshf}{comm}{+lshf}
+{6}>{s9}{-lshf}{perd}{+lshf}
+
 {obrk}>{s9}{-lctr}{hyph}{+lctr}
 {cbrk}>{s9}{-lctr}{eql}{+lctr}
 
@@ -35,6 +38,9 @@
 
 {2}>{s9}{obrk}
 {9}>{s9}{cbrk}
+
+{5}>{s9}{-lshf}{comm}{+lshf}
+{6}>{s9}{-lshf}{perd}{+lshf}
 
 {q}>{s9}{-lshf}{1}{+lshf}
 {w}>{s9}{-lshf}{2}{+lshf}
