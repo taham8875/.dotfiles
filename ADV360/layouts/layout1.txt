@@ -9,6 +9,9 @@
 [caps]>[esc]
 [eql]>[grav]
 
+[up]>[down]
+[down]>[up]
+
 {4}>{s9}{x1}{-lshf}{9}{+lshf}
 {7}>{s9}{x1}{-lshf}{0}{+lshf}
 
