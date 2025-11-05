@@ -9,7 +9,7 @@
 [caps]>[esc]
 [eql]>[grav]
 [home]>[prnt]
-[end]>[app]
+{end}>{s9}{-lshf}{del}{+lshf}
 
 [up]>[down]
 [down]>[up]
@@ -27,7 +27,7 @@
 {6}>{s9}{-lshf}{perd}{+lshf}
 
 {obrk}>{s9}{-lctr}{hyph}{+lctr}
-{cbrk}>{s9}{-lctr}{eql}{+lctr}
+{cbrk}>{s9}{-lctr}{-lshf}{eql}{+lshf}{+lctr}
 
 <keypad>
 [rwin]>[ralt]
