@@ -63,6 +63,45 @@ def kill_con(con_id: int) -> None:
 
 
 def main() -> int:
+    # 0) Ensure CopyQ server is running
+    server_running = False
+    try:
+        # Try to check if server is running
+        check_proc = subprocess.run(
+            ["copyq", "eval", "print('ok')"],
+            capture_output=True,
+            timeout=2,
+            text=True
+        )
+        if check_proc.returncode == 0:
+            server_running = True
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pass
+    
+    if not server_running:
+        # Server not running, start it in background
+        try:
+            subprocess.Popen(
+                ["copyq"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True
+            )
+            # Wait longer for server to start
+            time.sleep(2)
+            # Verify it started
+            verify_proc = subprocess.run(
+                ["copyq", "eval", "print('ok')"],
+                capture_output=True,
+                timeout=2,
+                text=True
+            )
+            if verify_proc.returncode != 0:
+                # Still not working, try one more time
+                time.sleep(1)
+        except FileNotFoundError:
+            return 1
+    
     # 1) Launch CopyQ menu
     try:
         subprocess.Popen(["copyq", "menu"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -106,51 +145,42 @@ def main() -> int:
             break
         time.sleep(0.05)
 
-    # 4) Subscribe to i3 window events and close CopyQ when focus leaves it
-    # Using `i3-msg -t subscribe` to avoid external Python deps
-    sub_proc = subprocess.Popen(
-        ["i3-msg", "-t", "subscribe", "[ \"window\" ]"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.DEVNULL,
-        text=True,
-        bufsize=1,
-    )
-
-    try:
-        while True:
-            # If the window disappeared, stop
-            tree = get_tree()
-            if not con_exists(tree, copyq_con_id):
-                return 0
-
-            if sub_proc.stdout is None:
-                break
-            line = sub_proc.stdout.readline()
-            if not line:
-                # Subscription ended; bail out without forcing
-                break
-            try:
-                event = json.loads(line)
-            except Exception:
-                continue
-
-            if event.get("change") == "close":
-                container = event.get("container") or {}
-                if container.get("id") == copyq_con_id:
-                    return 0
-
-            if event.get("change") == "focus":
-                # When focus changes away from our CopyQ window and it still exists, close it
-                container = event.get("container") or {}
-                focused_id = container.get("id")
-                if ever_focused and focused_id != copyq_con_id and con_exists(get_tree(), copyq_con_id):
+    # 4) Monitor focus changes and close CopyQ when it loses focus or item is selected
+    # Polling approach - more reliable than event subscription
+    last_focused_id = copyq_con_id
+    unfocused_count = 0
+    check_interval = 0.1  # Check every 100ms
+    
+    while True:
+        tree = get_tree()
+        
+        # If window disappeared, exit
+        if not con_exists(tree, copyq_con_id):
+            return 0
+        
+        # Get currently focused window
+        focused_id = get_focused_con_id(tree)
+        
+        # Check if CopyQ window is still focused
+        if focused_id == copyq_con_id:
+            # CopyQ is focused, reset counter
+            unfocused_count = 0
+            last_focused_id = copyq_con_id
+        else:
+            # CopyQ is not focused
+            if ever_focused:  # Only close if it was focused at least once
+                unfocused_count += 1
+                # If unfocused for 0.2 seconds (2 checks), close it
+                if unfocused_count >= 2:
                     kill_con(copyq_con_id)
                     return 0
-    finally:
-        try:
-            sub_proc.kill()
-        except Exception:
-            pass
+        
+        # Also check if window was closed by CopyQ itself (when item is selected)
+        # CopyQ closes the window automatically when an item is activated
+        if not con_exists(tree, copyq_con_id):
+            return 0
+        
+        time.sleep(check_interval)
 
     return 0
 

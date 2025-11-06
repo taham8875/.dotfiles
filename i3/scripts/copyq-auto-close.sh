@@ -30,3 +30,4 @@ done
 sleep 0.5
 copyq hide
 
+

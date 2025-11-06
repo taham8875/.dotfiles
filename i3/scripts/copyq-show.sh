@@ -22,3 +22,4 @@ if copyq eval "true" 2>/dev/null | grep -q "true"; then
     ) &
 fi
 
+
