@@ -2,7 +2,7 @@
 # Setup Arabic keyboard layout switching with Alt+Shift
 
 # Wait for X to be ready
-sleep 1
+sleep 1.5
 
 # Check available layouts (Arabic is usually "ara" on Ubuntu)
 ARABIC_LAYOUT=""
@@ -24,6 +24,13 @@ if [ -n "$ARABIC_LAYOUT" ]; then
     else
         echo "✗ Failed to set Arabic layout" >> /tmp/i3-arabic-setup.log
     fi
+    
+    # Re-apply after a delay to ensure it persists (in case IBus or other services reset it)
+    (
+        sleep 3
+        setxkbmap -layout us,$ARABIC_LAYOUT -option grp:alt_shift_toggle
+        echo "✓ Re-applied keyboard layout after delay" >> /tmp/i3-arabic-setup.log
+    ) &
 else
     echo "Arabic layout not found. Installing..." >> /tmp/i3-arabic-setup.log
     notify-send "Arabic Keyboard" "Layout not installed. Run: sudo apt install keyboard-configuration" 2>/dev/null || true

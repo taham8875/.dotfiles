@@ -30,11 +30,11 @@ font pango:DejaVu Sans Mono 11.8
 
 # Client window border colors
 # class                 border  backgr. text    indicator child_border
-client.focused          #9d3d7d #9d3d7d #b0aec4 #9d3d7d   #9d3d7d
-client.focused_inactive #3a3648 #3a3648 #5a5668 #3a3648   #3a3648
-client.unfocused        #050408 #050408 #3a3648 #050408   #050408
-client.urgent           #c48a46 #c48a46 #050408 #c48a46   #c48a46
-client.placeholder      #050408 #050408 #3a3648 #050408   #050408
+client.focused          #5d1d6d #5d1d6d #b0aec4 #5d1d6d   #5d1d6d
+client.focused_inactive #2a1628 #2a1628 #4a4658 #2a1628   #2a1628
+client.unfocused        #030204 #030204 #2a1628 #030204   #030204
+client.urgent           #a46a26 #a46a26 #030204 #a46a26   #a46a26
+client.placeholder      #030204 #030204 #2a1628 #030204   #030204
 
 # Background color for window decorations
 client.background       #050408
@@ -82,6 +82,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Keyboard layout switching (Arabic/English)
 # Alt+Shift: Switch between layouts (default, configured in setup-arabic.sh)
+# Manual re-apply: Mod+Shift+b (re-applies keyboard layout if it gets reset)
+bindsym $mod+Shift+b exec --no-startup-id "setxkbmap -layout us,ara -option grp:alt_shift_toggle 2>/dev/null || setxkbmap -layout us,ar -option grp:alt_shift_toggle 2>/dev/null; notify-send 'Keyboard Layout' 'Re-applied: Alt+Shift to toggle' 2>/dev/null || true"
 # (Removed keyboard layout watcher autostart)
 
 # Screenshot and screencast bindings

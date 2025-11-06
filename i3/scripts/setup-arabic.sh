@@ -27,13 +27,16 @@ fi
 # setxkbmap -layout us,ar -option grp:ctrl_space_toggle
 
 # Start IBus for Arabic input (if installed)
+# Note: IBus can interfere with setxkbmap, so we configure it to not override keyboard layouts
 if command -v ibus &> /dev/null; then
     export GTK_IM_MODULE=ibus
     export QT_IM_MODULE=ibus
     export XMODIFIERS=@im=ibus
-    ibus-daemon -drx &
-    # Add Arabic keyboard to IBus
-    ibus engine arabic &
+    # Start IBus but don't let it manage keyboard layouts
+    ibus-daemon -drx --xim &
+    # Wait a bit then re-apply keyboard layout to ensure it persists
+    sleep 2
+    setxkbmap -layout us,ara -option grp:alt_shift_toggle 2>/dev/null || setxkbmap -layout us,ar -option grp:alt_shift_toggle 2>/dev/null
 fi
 
 # Start fcitx5 for Arabic input (if installed, alternative to IBus)
