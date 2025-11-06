@@ -8,3 +8,5 @@ echo ""
 xev -event keyboard 2>&1 | grep -E "keysym|keycode" | head -5
 
 
+
+

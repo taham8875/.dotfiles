@@ -66,3 +66,5 @@ notify-send "Screencast Error" "No recording tool found. Please install ffmpeg, 
 exit 1
 
 
+
+

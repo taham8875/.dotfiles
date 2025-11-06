@@ -15,7 +15,8 @@ set $mod Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # Using pango font with Arabic support
-font pango:DejaVu Sans Mono 10
+# Increased to 11.8 for 118% scaling (10 * 1.18 = 11.8)
+font pango:DejaVu Sans Mono 11.8
 # Alternative Arabic-friendly fonts:
 # font pango:Noto Sans Arabic 10
 # font pango:Ubuntu 10
@@ -24,9 +25,33 @@ font pango:DejaVu Sans Mono 10
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
+# Beautiful color scheme - Rosepine theme with purple-magenta accents (darker variant)
+# Color format: #RRGGBB (background) #RRGGBB (border) #RRGGBB (text) #RRGGBB (indicator) #RRGGBB (child_border)
+
+# Client window border colors
+# class                 border  backgr. text    indicator child_border
+client.focused          #9d3d7d #9d3d7d #b0aec4 #9d3d7d   #9d3d7d
+client.focused_inactive #3a3648 #3a3648 #5a5668 #3a3648   #3a3648
+client.unfocused        #050408 #050408 #3a3648 #050408   #050408
+client.urgent           #c48a46 #c48a46 #050408 #c48a46   #c48a46
+client.placeholder      #050408 #050408 #3a3648 #050408   #050408
+
+# Background color for window decorations
+client.background       #050408
+
+# Window border width (makes borders more visible and modern)
+default_border pixel 2
+default_floating_border pixel 2
+
+# Setup 125% display scaling (like Windows/GNOME accessibility settings)
+exec --no-startup-id /home/taha/.config/i3/scripts/setup-display-scaling.sh
+
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
+
+# Kill Huion software on startup (it auto-starts but can't be closed easily)
+exec --no-startup-id /home/taha/.config/i3/scripts/kill-huion.sh
 
 # Setup Arabic keyboard and input method support
 exec --no-startup-id /home/taha/.config/i3/scripts/setup-arabic-keyboard.sh
@@ -82,19 +107,23 @@ floating_modifier $mod
 # or left-clicking anywhere into the window while holding the floating modifier.
 tiling_drag modifier titlebar
 
+# Window rules - make certain applications float
+# Make copyq clipboard manager float (like GNOME behavior) with smaller size
+for_window [class="^copyq$"] floating enable, resize set width 500 px, resize set height 400 px, move position center
+for_window [class="^CopyQ$"] floating enable, resize set width 500 px, resize set height 400 px, move position center
+for_window [instance="^copyq$"] floating enable, resize set width 500 px, resize set height 400 px, move position center
+for_window [instance="^CopyQ$"] floating enable, resize set width 500 px, resize set height 400 px, move position center
+
 # start a terminal
 bindsym $mod+Return exec konsole
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+# start rofi launcher (themed)
+bindsym $mod+d exec --no-startup-id ~/.config/rofi/launchers/type-4/launcher.sh
+# Alternative: Use the script symlink (if added to PATH)
+# bindsym $mod+d exec --no-startup-id launcher_t7
 
 # start nautlus file manager
 bindsym $mod+shift+f exec nautilus
@@ -129,7 +158,8 @@ bindsym $mod+h split h
 # split in vertical orientation
 bindsym $mod+shift+v split v
 
-bindsym $mod+v exec "copyq menu"
+# Copyq clipboard manager - opens menu, closes when it loses focus
+bindsym $mod+v exec --no-startup-id /home/taha/.config/i3/scripts/copyq-menu-close.sh
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -206,6 +236,9 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# rofi powermenu (shutdown, reboot, lock, suspend, logout)
+bindsym $mod+x exec --no-startup-id ~/.config/rofi/powermenu/type-1/powermenu.sh
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

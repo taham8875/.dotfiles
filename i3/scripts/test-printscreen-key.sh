@@ -15,3 +15,5 @@ echo "Checking if PrintScreen is already bound in i3:"
 i3-msg -t get_config | grep -i print || echo "No Print binding found in i3 config"
 
 
+
+

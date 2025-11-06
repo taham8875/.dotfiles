@@ -35,3 +35,5 @@ notify-send "Screenshot Error" "No screenshot tool found." 2>/dev/null || \
 exit 1
 
 
+
+
