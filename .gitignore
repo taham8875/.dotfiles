@@ -1,1 +1,7 @@
 *.md
+
+# CopyQ data files (not config)
+copyq/*.dat
+copyq/*.lock
+copyq/*.pub
+copyq/copyq_tab_*.dat
