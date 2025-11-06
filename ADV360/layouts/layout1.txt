@@ -5,8 +5,6 @@
 [apos]>[del]
 [del]>[keys]
 [lalt]>[lwin]
-[esc]>[caps]
-[caps]>[esc]
 [eql]>[grav]
 [home]>[prnt]
 {end}>{s9}{-lshf}{del}{+lshf}
@@ -35,8 +33,10 @@
 [del]>[keys]
 [scol]>[0]
 [spc]>[spc]
-[up]>[home]
-[left]>[pgup]
+[left]>[home]
+[rght]>[end]
+[up]>[pgup]
+[down]>[pgdn]
 [home]>[prnt]
 [end]>[app]
 
