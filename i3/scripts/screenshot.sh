@@ -13,29 +13,56 @@ echo "Screenshot dir: $SCREENSHOT_DIR" >> "$LOG_FILE"
 # Generate timestamped filename
 FILENAME="$SCREENSHOT_DIR/screenshot-$(date +%Y%m%d-%H%M%S).png"
 
-# Try flameshot first (best tool for interactive selection)
+# Try maim with slop first (doesn't create GUI windows, prevents layout shifts)
+if command -v maim &> /dev/null && command -v slop &> /dev/null; then
+    echo "Using maim" >> "$LOG_FILE"
+    if maim -s "$FILENAME"; then
+        # Copy to clipboard
+        if command -v xclip &> /dev/null; then
+            xclip -selection clipboard -t image/png < "$FILENAME"
+        elif command -v xsel &> /dev/null; then
+            xsel --clipboard --input < "$FILENAME"
+        fi
+        notify-send "Screenshot saved" "Saved to clipboard and $FILENAME" 2>/dev/null || echo "Screenshot saved to clipboard and $FILENAME"
+    fi
+    exit 0
+fi
+
+# Try flameshot (creates GUI, but we've configured it to not affect layout)
+# Use --clipboard option to copy to clipboard
 if command -v flameshot &> /dev/null; then
     echo "Using flameshot" >> "$LOG_FILE"
-    flameshot gui -p "$SCREENSHOT_DIR" 2>&1 >> "$LOG_FILE"
+    # Launch in background, copy to clipboard and save to file
+    flameshot gui -p "$SCREENSHOT_DIR" --clipboard 2>&1 >> "$LOG_FILE" &
     exit 0
 fi
 
 # Try gnome-screenshot (GNOME-like interactive mode)
 if command -v gnome-screenshot &> /dev/null; then
     echo "Using gnome-screenshot" >> "$LOG_FILE"
-    gnome-screenshot --interactive --file="$FILENAME" 2>&1 >> "$LOG_FILE"
-    exit 0
-fi
-
-# Try maim with slop (area selection)
-if command -v maim &> /dev/null && command -v slop &> /dev/null; then
-    maim -s "$FILENAME" && notify-send "Screenshot saved" "$FILENAME" 2>/dev/null || echo "Screenshot saved: $FILENAME"
+    if gnome-screenshot --interactive --file="$FILENAME" 2>&1 >> "$LOG_FILE"; then
+        # Copy to clipboard
+        if command -v xclip &> /dev/null; then
+            xclip -selection clipboard -t image/png < "$FILENAME"
+        elif command -v xsel &> /dev/null; then
+            xsel --clipboard --input < "$FILENAME"
+        fi
+        notify-send "Screenshot saved" "Saved to clipboard and $FILENAME" 2>/dev/null
+    fi
     exit 0
 fi
 
 # Fallback: use scrot (simple but less interactive)
 if command -v scrot &> /dev/null; then
-    scrot -s "$FILENAME" && notify-send "Screenshot saved" "$FILENAME" 2>/dev/null || echo "Screenshot saved: $FILENAME"
+    if scrot -s "$FILENAME"; then
+        # Copy to clipboard
+        if command -v xclip &> /dev/null; then
+            xclip -selection clipboard -t image/png < "$FILENAME"
+        elif command -v xsel &> /dev/null; then
+            xsel --clipboard --input < "$FILENAME"
+        fi
+        notify-send "Screenshot saved" "Saved to clipboard and $FILENAME" 2>/dev/null || echo "Screenshot saved to clipboard and $FILENAME"
+    fi
     exit 0
 fi
 

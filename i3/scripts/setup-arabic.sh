@@ -8,13 +8,19 @@
 sleep 0.5
 
 # Set keyboard layout with toggle option
-# Use Alt+Shift to toggle between English (us) and Arabic (ar)
-if setxkbmap -layout us,ar -option grp:alt_shift_toggle 2>/dev/null; then
-    echo "Keyboard layout set: English + Arabic (Alt+Shift to toggle)"
+# Use Alt+Shift to toggle between English (us) and Arabic (ara)
+# Try ara first (most common on Ubuntu)
+if setxkbmap -layout us,ara -option grp:alt_shift_toggle 2>/dev/null; then
+    echo "Keyboard layout set: English + Arabic (ara) - Alt+Shift to toggle"
+    # Verify it worked
+    if ! setxkbmap -query | grep -q "ara"; then
+        # If verification failed, try again with force
+        setxkbmap -layout us,ara -option grp:alt_shift_toggle
+    fi
 else
-    # Fallback: try with different layout names
-    if setxkbmap -layout us,ara -option grp:alt_shift_toggle 2>/dev/null; then
-        echo "Keyboard layout set: English + Arabic (ara variant)"
+    # Fallback: try with different layout name
+    if setxkbmap -layout us,ar -option grp:alt_shift_toggle 2>/dev/null; then
+        echo "Keyboard layout set: English + Arabic (ar variant)"
     else
         # If Arabic layout not available, install it or use alternative
         echo "Warning: Arabic layout may not be installed. Install with: sudo apt install keyboard-configuration"
@@ -34,8 +40,10 @@ if command -v ibus &> /dev/null; then
     export XMODIFIERS=@im=ibus
     # Start IBus but don't let it manage keyboard layouts
     ibus-daemon -drx --xim &
-    # Wait a bit then re-apply keyboard layout to ensure it persists
+    # Wait a bit then re-apply keyboard layout multiple times to ensure it persists
     sleep 2
+    setxkbmap -layout us,ara -option grp:alt_shift_toggle 2>/dev/null || setxkbmap -layout us,ar -option grp:alt_shift_toggle 2>/dev/null
+    sleep 1
     setxkbmap -layout us,ara -option grp:alt_shift_toggle 2>/dev/null || setxkbmap -layout us,ar -option grp:alt_shift_toggle 2>/dev/null
 fi
 

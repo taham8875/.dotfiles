@@ -15,7 +15,8 @@ fi
 if [ -n "$ARABIC_LAYOUT" ]; then
     # Set keyboard layouts: English (us) and Arabic
     # Alt+Shift will toggle between them
-    setxkbmap -layout us,$ARABIC_LAYOUT -option grp:alt_shift_toggle
+    # Try both left and right Alt+Shift combinations
+    setxkbmap -layout us,$ARABIC_LAYOUT -option grp:alt_shift_toggle -option grp_led:scroll
     
     # Verify the setting
     if setxkbmap -query | grep -q "$ARABIC_LAYOUT"; then
@@ -23,13 +24,20 @@ if [ -n "$ARABIC_LAYOUT" ]; then
         notify-send "Arabic Keyboard" "Enabled - Alt+Shift to switch" 2>/dev/null || true
     else
         echo "✗ Failed to set Arabic layout" >> /tmp/i3-arabic-setup.log
+        # Try alternative method
+        setxkbmap -layout us,$ARABIC_LAYOUT -option grp:alt_shift_toggle -option grp_led:scroll
     fi
     
-    # Re-apply after a delay to ensure it persists (in case IBus or other services reset it)
+    # Re-apply after delays to ensure it persists (in case IBus or other services reset it)
     (
-        sleep 3
+        sleep 2
         setxkbmap -layout us,$ARABIC_LAYOUT -option grp:alt_shift_toggle
-        echo "✓ Re-applied keyboard layout after delay" >> /tmp/i3-arabic-setup.log
+        echo "✓ Re-applied keyboard layout after 2s" >> /tmp/i3-arabic-setup.log
+    ) &
+    (
+        sleep 5
+        setxkbmap -layout us,$ARABIC_LAYOUT -option grp:alt_shift_toggle
+        echo "✓ Re-applied keyboard layout after 5s" >> /tmp/i3-arabic-setup.log
     ) &
 else
     echo "Arabic layout not found. Installing..." >> /tmp/i3-arabic-setup.log
