@@ -1,0 +1,301 @@
+[global]
+    ### Display ###
+    
+    # Which monitor should the notifications be displayed on.
+    monitor = 0
+    
+    # Display notification on focused monitor.  Possible modes are:
+    #   mouse: follow mouse pointer
+    #   keyboard: follow window with keyboard focus
+    #   none: don't follow anything
+    #
+    # "keyboard" needs a window manager that exports _NET_ACTIVE_WINDOW.
+    # "mouse" needs a window manager that exports _NET_ACTIVE_WINDOW.
+    follow = keyboard
+    
+    # The geometry of the window:
+    #   [{width}]x{height}[+/-{x}+/-{y}]
+    # The geometry of the message window.
+    # The height is measured in number of notifications everything else in pixels.
+    # If width is omitted but height is given ("-geometry x2"), the message window
+    # expands over the whole screen (dmenu-like).  If width is negative, the
+    # window expands to the left edge of the screen.
+    geometry = "350x5-30+20"
+    
+    # Show how many messages are currently hidden (because of geometry).
+    indicate_hidden = yes
+    
+    # Shrink window if it's smaller than the width.  Will be ignored if width is 0.
+    shrink = no
+    
+    # The transparency of the window.  Range: [0; 100].
+    # This option will only work if a compositor supporting transparency is running.
+    transparency = 0
+    
+    # The height of the entire notification.  If the height is less than
+    # the font height and padding combined, it will be raised to the font height
+    # and padding.
+    notification_height = 0
+    
+    # Draw a line of "separator_height" pixels height between two notifications.
+    # Set to 0 to disable.
+    separator_height = 2
+    
+    # Padding between text and separator.
+    padding = 12
+    
+    # Horizontal padding.
+    horizontal_padding = 12
+    
+    # Define a color for the separator.
+    # possible values are:
+    #  * auto: dunst tries to find a color fitting to the background;
+    #  * foreground: use the same color as the foreground;
+    #  * frame: use the same color as the frame;
+    #  * anything else will be interpreted as a X color.
+    separator_color = frame
+    
+    ### Text ###
+    
+    # Possible values are:
+    # full: Allow a small subset of html markup in notifications:
+    #        <b>bold</b>
+    #        <i>italic</i>
+    #        <s>strikethrough</s>
+    #        <u>underline</u>
+    #
+    #        For a complete reference see
+    #        <http://developer.gnome.org/pango/stable/PangoMarkupFormat.html>.
+    #
+    # strip: This setting is provided for compatibility with some broken
+    #        clients that send markup even though it's not enabled on the
+    #        server. Dunst will try to strip the markup but the parsing is
+    #        simplistic so there might be some issues. Instead of completely
+    #        disabling markup, this option ignores the tags.
+    #
+    # no:    Disable markup parsing, incoming notifications are treated as
+    #        plain text. Dunst will not advertise that it can receive
+    #        markup.
+    markup = full
+    
+    # The alignment of the text within the notification.  Possible values are
+    # "left", "center" and "right".
+    alignment = left
+    
+    # Vertical alignment of the text within the notification.
+    # Possible values are:
+    # "top", "center" and "bottom".
+    vertical_alignment = center
+    
+    # Show age of message if message is older than show_age_threshold seconds.
+    # Set to -1 to disable.
+    show_age_threshold = 60
+    
+    # Specify where to make an ellipsis in long lines.  Possible values are
+    # "start", "middle" and "end".
+    ellipsize = middle
+    
+    # Ignore newlines '\n' in notifications.
+    ignore_newline = no
+    
+    # Stack together notifications with the same content
+    stack_duplicates = true
+    
+    # Hide the count of stacked notifications with the same content
+    hide_duplicate_count = false
+    
+    # Display indicators for URLs (U) and actions (A).
+    show_indicators = yes
+    
+    ### Icons ###
+    
+    # Align icons left/right/off
+    icon_position = left
+    
+    # Scale larger icons down to this size, set to 0 to disable
+    max_icon_size = 32
+    
+    # Paths to default icons.
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    
+    ### Frame ###
+    
+    # Draw a frame around notifications.  Possible values are:
+    # 0: no frame
+    # 1: frame
+    # 2: full frame
+    # 3: auto
+    frame_width = 2
+    
+    # Frame color.  If this is set, frame_color will be used.
+    frame_color = "#5d1d6d"
+    
+    ### Appearance ###
+    
+    # Sticky notifications that don't expire. Possible values are:
+    #  * show: show notifications marked as sticky
+    #  * hide: hide notifications marked as sticky
+    sticky_history = yes
+    
+    # Maximum number of notifications (0 = no limit)
+    history_length = 20
+    
+    # Minimum width.  Will be enforced even if width is 0.
+    min_icon_size = 0
+    
+    # Sort messages by urgency.
+    sort = yes
+    
+    # Don't remove messages, if the user is idle (no mouse or keyboard input)
+    # for longer than idle_threshold seconds.
+    # Set to 0 to disable.
+    idle_threshold = 0
+    
+    ### Progress bar ###
+    
+    # Show a progress bar for how long the notification will be displayed.
+    # Set to 0 to disable.
+    progress_bar = true
+    
+    # Minimum width for the progress bar.
+    # Default is 0, which means that the progress bar will not be shown.
+    progress_bar_min_width = 150
+    
+    # Maximum width for the progress bar.
+    # Default is 0, which means that the progress bar will not be shown.
+    progress_bar_max_width = 300
+    
+    # The frame color of the progress bar.
+    progress_bar_frame_width = 1
+    
+    # Corner radius of the progress bar.
+    progress_bar_corner_radius = 0
+    
+    # Corner radius of the progress bar fill.
+    progress_bar_corner_radius_fill = 0
+    
+    # Padding of the progress bar.
+    progress_bar_padding = 0
+    
+    # Offset of the progress bar.
+    progress_bar_height = 6
+    
+    # Frame color of the progress bar.
+    progress_bar_frame_color = "#5d1d6d"
+    
+    # Foreground color of the progress bar.
+    progress_bar_foreground_color = "#cba6f7"
+    
+    # Background color of the progress bar.
+    progress_bar_background_color = "#313244"
+    
+    ### Legacy options ###
+    
+    # Use the Xinerama extension instead of RandR for multi-monitor support.
+    # This setting is provided for compatibility with older nVidia drivers that
+    # do not support RandR and using it on systems that support RandR is highly
+    # discouraged.
+    #
+    # By enabling this setting dunst will not be able to detect when a monitor
+    # is connected or disconnected which might break follow mode if the screen
+    # layout changes.
+    force_xinerama = false
+    
+    ### mouse
+    
+    # Defines list of actions of each mouse action
+    # Possible values are:
+    # * none: Don't do anything.
+    # * do_action: If the notification has exactly one action, or one is marked as default,
+    #              invoke it. If there are multiple and none is marked as default, open the
+    #              context menu.
+    # * close_current: Close current notification.
+    # * close_all: Close all notifications.
+    # * context: Open context menu for the notification.
+    # * context_all: Open context menu for all notifications.
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+[experimental]
+    # Calculate the dpi to use on a per-monitor basis.
+    # If this setting is enabled the Xft.dpi value will be ignored and instead
+    # dunst will attempt to calculate an appropriate dpi value for each monitor
+    # using the resolution and physical size. This might be useful in setups
+    # where there are multiple monitors with very different dpi values.
+    per_monitor_dpi = false
+
+[shortcuts]
+    # Shortcuts are specified as [modifier+][modifier+]...key
+    # Available modifiers are "ctrl", "mod1" (alt), "mod2", "mod3", "mod4" (super/windows key), and "mod5" (right alt).
+    # Xev can be used to find the name of a key.
+    
+    # Close notification.
+    close = ctrl+space
+    
+    # Close all notifications.
+    close_all = ctrl+shift+space
+    
+    # Redisplay last message(s).
+    # On the US keyboard layout "grave" is normally above TAB and left
+    # of "1". Make sure this key is mapped correctly in your keyboard layout.
+    # Don't use the grave key for shortcuts, it's not available on all keyboard layouts.
+    history = ctrl+grave
+    
+    # Context menu.
+    context = ctrl+shift+period
+
+[urgency_low]
+    # IMPORTANT: colors have to be defined in quotation marks.
+    # Otherwise the "#" and following would be interpreted as a comment.
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#5d1d6d"
+    timeout = 10
+
+[urgency_normal]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#5d1d6d"
+    timeout = 10
+
+[urgency_critical]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#f38ba8"
+    timeout = 0
+
+# Every section that isn't one of the above is interpreted as a rules to
+# override settings for certain messages.
+#
+# Messages can be matched by "appname", "summary", "body", "icon", "urgency",
+# "category", "msg_urgency" and "msg_category" and you can override the
+# "timeout", "urgency", "foreground", "background", "new_foreground",
+# "new_background", "frame_color", "format" and "icon".
+#
+# Shell-like globbing will work if "*", "?" and "[]" are used for matching.
+#
+# SCRIPTING
+# You can specify a script that gets run whenever a rule matches by
+# setting the "script" option.
+#
+# The script will be called as follows:
+#   script appname summary body icon urgency category
+#           ^       ^       ^    ^    ^        ^
+#           |       |       |    |    |        |
+#          \_/     \_/     \_/  \_/  \_/      \_/
+#          The parameters are wrapped in quotes and passed on
+#          to the script as strings
+#
+# NOTE: if you don't want to allow more than one of these, just comment the keyword "script".
+#       If the script, returns a non-zero exit code, the notification will not be displayed.
+#
+# EXAMPLE: Print the summary of all notifications from vlc to the console.
+#
+#[vlc]
+#    summary = "*"
+#    script = echo "$1"
+
+# vim: ft=cfg
+
+
