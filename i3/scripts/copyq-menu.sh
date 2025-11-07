@@ -8,3 +8,9 @@ copyq menu
 # The menu command should handle closing automatically when item is selected
 
 
+
+
+
+
+
+

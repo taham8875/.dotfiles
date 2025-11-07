@@ -32,7 +32,7 @@ font pango:DejaVu Sans Mono 11.8
 # class                 border  backgr. text    indicator child_border
 client.focused          #5d1d6d #5d1d6d #b0aec4 #5d1d6d   #5d1d6d
 client.focused_inactive #2a1628 #2a1628 #4a4658 #2a1628   #2a1628
-client.unfocused        #030204 #030204 #2a1628 #030204   #030204
+client.unfocused        #030204 #030204 #7d4177 #030204   #030204
 client.urgent           #a46a26 #a46a26 #030204 #a46a26   #a46a26
 client.placeholder      #030204 #030204 #2a1628 #030204   #030204
 
@@ -43,8 +43,21 @@ client.background       #050408
 default_border pixel 2
 default_floating_border pixel 2
 
+# Window gaps for visual separation
+gaps inner 10
+gaps outer 5
+
 # Setup 125% display scaling (like Windows/GNOME accessibility settings)
 exec --no-startup-id /home/taha/.config/i3/scripts/setup-display-scaling.sh
+
+# Set larger cursor size
+exec --no-startup-id bash -c "gsettings set org.gnome.desktop.interface cursor-size 40 2>/dev/null; xrdb -merge - <<< 'Xcursor.size: 40' 2>/dev/null"
+
+# Set background wallpaper
+exec --no-startup-id feh --bg-fill ~/Downloads/wallhaven-5g22q5.png
+
+# Start dunst notification daemon
+exec --no-startup-id dunst
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -108,6 +121,13 @@ floating_modifier $mod
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
 tiling_drag modifier titlebar
+
+# Mouse bindings for closing windows
+# Right-click kills the focused window (useful when clicking on titlebar in stacked mode)
+# Note: Clicking on a titlebar focuses that window, so this effectively closes the clicked window
+bindsym button3 kill
+# Middle-click also kills the focused window (alternative method)
+bindsym button2 kill
 
 # Window rules - make certain applications float
 # Make copyq clipboard manager float (like GNOME behavior) with smaller size
