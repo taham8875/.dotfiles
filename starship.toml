@@ -1,0 +1,86 @@
+# Starship Prompt Configuration
+# Minimal - Only Git Branch
+
+# Add a newline before each prompt
+add_newline = true
+
+# Wait 10ms for starship to check files
+scan_timeout = 10
+
+# Character to use for the prompt
+[character]
+success_symbol = "[➜](bold purple)"
+error_symbol = "[➜](bold red)"
+vimcmd_symbol = "[V](bold green)"
+
+# Git branch - ONLY thing we want to show!
+[git_branch]
+symbol = " "
+style = "bold purple"
+truncation_length = 20
+truncation_symbol = "…"
+format = "[$symbol$branch]($style) "
+
+# Disable EVERYTHING else
+[git_status]
+disabled = true
+
+[directory]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[python]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true
+
+[ruby]
+disabled = true
+
+[php]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[aws]
+disabled = true
+
+[aws_region]
+disabled = true
+
+[package]
+disabled = true
+
+[time]
+disabled = true
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[cmd_duration]
+disabled = true
+
+[jobs]
+disabled = true
+
+[battery]
+disabled = true
+
+[memory_usage]
+disabled = true
+
+[custom.php]
+disabled = true
+
+[custom.flutter]
+disabled = true

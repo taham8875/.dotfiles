@@ -5,3 +5,4 @@ copyq/*.dat
 copyq/*.lock
 copyq/*.pub
 copyq/copyq_tab_*.dat
+btop/btop.log
