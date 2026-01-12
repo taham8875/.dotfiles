@@ -2,6 +2,20 @@
 
 Personal Linux configuration files for i3 + X11 environment
 
+## 🚀 New Machine Setup
+
+**Got a fresh Ubuntu install?** Run this one command:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/taham8875/.dotfiles/main/setup-new-machine.sh)
+```
+
+This will automatically install ALL packages, tools, and configurations you need!
+
+👉 **[Full Setup Guide: SETUP.md](SETUP.md)**
+
+---
+
 ## What's Included
 
 ### Window Manager & Desktop

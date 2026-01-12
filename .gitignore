@@ -1,6 +1,7 @@
 *.md
 !README.md
 !INSTALL.md
+!SETUP.md
 
 # Security: Never commit sensitive files
 .git-credentials
