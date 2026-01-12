@@ -1,4 +1,18 @@
 *.md
+!README.md
+!INSTALL.md
+
+# Security: Never commit sensitive files
+.git-credentials
+*_history
+.ssh/
+.gnupg/
+*.pem
+*.key
+*.cert
+.env
+.env.*
+secrets.*
 
 # CopyQ data files (not config)
 copyq/*.dat
@@ -6,3 +20,9 @@ copyq/*.lock
 copyq/*.pub
 copyq/copyq_tab_*.dat
 btop/btop.log
+
+# Application caches and logs
+*.log
+*.cache
+*~
+.DS_Store

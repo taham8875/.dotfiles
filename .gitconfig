@@ -1,0 +1,10 @@
+[user]
+	email = taha.m8875@gmail.com
+	name = taham8875
+[core]
+	autocrlf = false
+	editor = nvim
+[init]
+	defaultBranch = main
+[credential]
+	helper = store

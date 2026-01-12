@@ -1,0 +1,20 @@
+#!/bin/sh
+# X11 profile - runs when X session starts
+# Sets 118% display scaling for all applications
+
+# Set X11 DPI to 113 (118% of default 96 DPI)
+# 96 * 1.18 = 113.28, rounded to 113
+xrandr --dpi 113 2>/dev/null || true
+
+# Set GTK scaling (for GTK applications like Nautilus, Gedit, etc.)
+export GDK_SCALE=1.18
+export GDK_DPI_SCALE=1.0
+
+# Set Qt scaling (for Qt applications like Konsole, etc.)
+export QT_SCALE_FACTOR=1.18
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+# Set Electron scaling (for Microsoft Edge, VS Code, Discord, etc.)
+export ELECTRON_SCALE_FACTOR=1.18
+
+
