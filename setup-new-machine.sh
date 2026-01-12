@@ -113,7 +113,7 @@ sudo apt install -y \
     ripgrep \
     fd-find \
     bat \
-    exa \
+    eza \
     tldr
 
 # Install development tools
