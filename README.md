@@ -14,7 +14,7 @@ Personal Linux configuration files for i3 + X11 environment
 ### Terminal & Shell
 - **alacritty** - GPU-accelerated terminal with rosepine theme
 - **konsole** - KDE terminal with rosepine colorscheme
-- **zsh** (zshrc) - Shell config with aliases and functions
+- **zsh** (zshrc, zshenv) - Shell config with aliases, functions, and PATH setup
 - **tmux** - Terminal multiplexer with custom config
 - **starship** - Minimal shell prompt (git branch only)
 
@@ -28,6 +28,7 @@ Personal Linux configuration files for i3 + X11 environment
 
 ### Display & Input
 - **xprofile** - 118% display scaling for all apps (X11, GTK, Qt, Electron)
+- **imwheelrc** - Mouse wheel scroll speed (2x multiplier, preserves Ctrl+scroll zoom)
 - **gtk-3.0/4.0** - GTK theme settings
 - **autostart** - Auto-start applications
 
@@ -89,6 +90,8 @@ ln -sf ~/.dotfiles/screenkey.json ~/.config/screenkey.json
 ln -sf ~/.dotfiles/.xprofile ~/.xprofile
 ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
 ln -sf ~/.dotfiles/zshrc ~/.zshrc
+ln -sf ~/.dotfiles/.zshenv ~/.zshenv
+ln -sf ~/.dotfiles/.imwheelrc ~/.imwheelrc
 ```
 
 ## Dependencies
@@ -105,7 +108,8 @@ sudo apt install -y \
     zenity notify-send \
     papirus-icon-theme \
     fonts-dejavu fonts-noto-color-emoji \
-    brightnessctl pactl
+    brightnessctl pactl \
+    imwheel
 ```
 
 Optional:

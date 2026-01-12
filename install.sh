@@ -108,6 +108,12 @@ create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 # Zsh config
 create_symlink "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 
+# Zsh environment
+create_symlink "$DOTFILES_DIR/.zshenv" "$HOME/.zshenv"
+
+# Mouse wheel scroll speed
+create_symlink "$DOTFILES_DIR/.imwheelrc" "$HOME/.imwheelrc"
+
 echo -e "\n${GREEN}=== Installation complete! ===${NC}\n"
 
 # Post-installation notes
