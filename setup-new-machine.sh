@@ -87,6 +87,21 @@ sudo apt install -y \
     fonts-liberation \
     fonts-roboto
 
+# Install JetBrainsMono Nerd Font (required for polybar icons/emojis)
+echo -e "\n${GREEN}==> Installing JetBrainsMono Nerd Font...${NC}"
+if [ ! -d "$HOME/.local/share/fonts" ] || [ -z "$(fc-list | grep -i 'JetBrainsMono')" ]; then
+    mkdir -p ~/.local/share/fonts
+    cd /tmp
+    wget -q --show-progress https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    unzip -q JetBrainsMono.zip -d JetBrainsMono
+    cp JetBrainsMono/*.ttf ~/.local/share/fonts/
+    fc-cache -fv ~/.local/share/fonts > /dev/null 2>&1
+    rm -rf JetBrainsMono JetBrainsMono.zip
+    echo -e "${GREEN}✓${NC} JetBrainsMono Nerd Font installed"
+else
+    echo -e "${GREEN}✓${NC} JetBrainsMono Nerd Font already installed"
+fi
+
 # Install terminal emulators
 echo -e "\n${GREEN}==> Installing terminal emulators...${NC}"
 sudo apt install -y \
