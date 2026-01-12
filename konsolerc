@@ -1,0 +1,33 @@
+[Desktop Entry]
+DefaultProfile=Profile 1.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+1627x915 screen: Height=780
+1627x915 screen: Width=1617
+1627x915 screen: XPosition=5
+1627x915 screen: YPosition=131
+1920x1080 screen: Height=918
+1920x1080 screen: Width=960
+1920x1080 screen: XPosition=50
+1920x1080 screen: YPosition=81
+2 screens: Height=905
+2 screens: Width=806
+2 screens: XPosition=2736
+2 screens: YPosition=5
+3 screens: Height=1033
+3 screens: Width=1916
+3 screens: XPosition=2
+3 screens: YPosition=371
+DP-1-0 HDMI-1-0=DP-1-0
+DP-1-0 HDMI-1-0 eDP-1=eDP-1
+HDMI-1-0=HDMI-1-0
+HDMI-1-0 eDP-1=HDMI-1-0
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAvsAAAAcAFMAUwBIAE0AYQBuAGEAZwBlAHIARABvAGMAawAAAAAA/////wAAARsA////+wAAACIAUQB1AGkAYwBrAEMAbwBtAG0AYQBuAGQAcwBEAG8AYwBrAAAAAAD/////AAABewD///8AAAeAAAADuwAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIAAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAAAAAO//////AAAAAAAAAAA=
+ToolBarsMovable=Disabled
+eDP-1=eDP-1
+
+[UiSettings]
+ColorScheme=

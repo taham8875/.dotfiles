@@ -55,7 +55,13 @@ create_symlink "$DOTFILES_DIR/dunst" "$HOME/.config/dunst"
 
 # Terminal emulators
 create_symlink "$DOTFILES_DIR/config/alacritty" "$HOME/.config/alacritty"
-create_symlink "$DOTFILES_DIR/konsole" "$HOME/.config/konsole"
+create_symlink "$DOTFILES_DIR/config/konsole" "$HOME/.config/konsole"
+
+# Konsole profiles and colorschemes
+mkdir -p "$HOME/.local/share/konsole"
+create_symlink "$DOTFILES_DIR/konsole/Profile 1.profile" "$HOME/.local/share/konsole/Profile 1.profile"
+create_symlink "$DOTFILES_DIR/konsole/rose-pine.colorscheme" "$HOME/.local/share/konsole/rose-pine.colorscheme"
+create_symlink "$DOTFILES_DIR/konsolerc" "$HOME/.config/konsolerc"
 
 # Shell
 create_symlink "$DOTFILES_DIR/config/zsh" "$HOME/.config/zsh"

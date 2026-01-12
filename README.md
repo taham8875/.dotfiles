@@ -27,7 +27,7 @@ This will automatically install ALL packages, tools, and configurations you need
 
 ### Terminal & Shell
 - **alacritty** - GPU-accelerated terminal with rosepine theme
-- **konsole** - KDE terminal with rosepine colorscheme
+- **konsole** - KDE terminal with rosepine colorscheme, zsh default, custom profile
 - **zsh** (zshrc, zshenv) - Shell config with aliases, functions, and PATH setup
 - **tmux** - Terminal multiplexer with custom config
 - **starship** - Minimal shell prompt (git branch only)
@@ -95,7 +95,11 @@ ln -sf ~/.dotfiles/neofetch ~/.config/neofetch
 ln -sf ~/.dotfiles/btop ~/.config/btop
 ln -sf ~/.dotfiles/htop ~/.config/htop
 ln -sf ~/.dotfiles/mpv ~/.config/mpv
-ln -sf ~/.dotfiles/konsole ~/.config/konsole
+ln -sf ~/.dotfiles/config/konsole ~/.config/konsole
+mkdir -p ~/.local/share/konsole
+ln -sf ~/.dotfiles/konsole/"Profile 1.profile" ~/.local/share/konsole/"Profile 1.profile"
+ln -sf ~/.dotfiles/konsole/rose-pine.colorscheme ~/.local/share/konsole/rose-pine.colorscheme
+ln -sf ~/.dotfiles/konsolerc ~/.config/konsolerc
 ln -sf ~/.dotfiles/picom.conf ~/.config/picom.conf
 ln -sf ~/.dotfiles/starship.toml ~/.config/starship.toml
 ln -sf ~/.dotfiles/screenkey.json ~/.config/screenkey.json
