@@ -53,10 +53,6 @@ exec --no-startup-id /home/taha/.config/i3/scripts/setup-display-scaling.sh
 # Set larger cursor size
 exec --no-startup-id bash -c "gsettings set org.gnome.desktop.interface cursor-size 40 2>/dev/null; xrdb -merge - <<< 'Xcursor.size: 40' 2>/dev/null"
 
-# Enable dark mode for GTK applications (Nemo, etc.)
-# Set GTK theme environment variables for all applications
-exec --no-startup-id bash -c "export GTK_THEME=Adwaita-dark && export GTK_THEME_NAME=Adwaita-dark && /home/taha/.config/i3/scripts/setup-dark-mode.sh"
-
 # Set background wallpaper
 exec --no-startup-id feh --bg-fill ~/Downloads/wallhaven-5g22q5.png
 
@@ -70,23 +66,9 @@ exec --no-startup-id dex --autostart --environment i3
 # Kill Huion software on startup (it auto-starts but can't be closed easily)
 exec --no-startup-id /home/taha/.config/i3/scripts/kill-huion.sh
 
-# Manual keybinding to kill Huion processes
-bindsym $mod+Shift+h exec --no-startup-id pkill -f huion && notify-send "Huion Killed" "Huion processes terminated"
-
-# Workspace Booster - Automatically initialize all workspaces with apps
-bindsym $mod+Shift+w exec --no-startup-id /home/taha/.config/i3/scripts/workspace-booster.sh
-# Optional: Auto-run workspace booster on startup (uncomment line below)
-# exec --no-startup-id bash -c "sleep 3 && /home/taha/.config/i3/scripts/workspace-booster.sh"
-
 # Setup Arabic keyboard and input method support
 exec --no-startup-id /home/taha/.config/i3/scripts/setup-arabic-keyboard.sh
 exec --no-startup-id /home/taha/.config/i3/scripts/setup-arabic.sh
-
-# Setup increased mouse wheel scroll speed using imwheel (multiplies scroll events)
-exec --no-startup-id /home/taha/.config/i3/scripts/setup-mouse-scroll.sh
-
-# Quick access to adjust scroll speed (opens interactive prompt)
-bindsym $mod+Shift+s exec --no-startup-id /home/taha/.config/i3/scripts/adjust-scroll-multiplier.sh
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -97,23 +79,12 @@ bindsym $mod+Shift+s exec --no-startup-id /home/taha/.config/i3/scripts/adjust-s
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Disable automatic idle locking - keep computer running even when idle
-# Lock only after 4 hours of inactivity (14400 seconds)
+# Lock only after 6 hours of inactivity (21600 seconds)
 exec --no-startup-id /home/taha/.config/i3/scripts/disable-idle-lock.sh
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
-
-# Open WiFi/Network settings (NetworkManager connection editor - GUI)
-bindsym $mod+n exec --no-startup-id nm-connection-editor
-# Switch WiFi network (GUI interface using zenity)
-bindsym $mod+Shift+n exec --no-startup-id /home/taha/.config/i3/scripts/wifi-gui.sh
-
-# Bluetooth management
-# Open Bluetooth manager (GUI interface using zenity)
-bindsym $mod+b exec --no-startup-id /home/taha/.config/i3/scripts/bluetooth-gui.sh
-# Open Bluetooth manager (terminal interface)
-bindsym $mod+Ctrl+b exec --no-startup-id konsole -e /home/taha/.config/i3/scripts/bluetooth-terminal.sh
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -121,13 +92,6 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-# Screen brightness control
-bindsym XF86MonBrightnessUp exec --no-startup-id /home/taha/.config/i3/scripts/adjust-brightness.sh +10
-bindsym XF86MonBrightnessDown exec --no-startup-id /home/taha/.config/i3/scripts/adjust-brightness.sh -10
-# Alternative keybindings: Mod+Shift+i (increase) and Mod+Shift+d (decrease)
-bindsym $mod+Shift+i exec --no-startup-id /home/taha/.config/i3/scripts/adjust-brightness.sh +10
-bindsym $mod+Shift+d exec --no-startup-id /home/taha/.config/i3/scripts/adjust-brightness.sh -10
 
 # Keyboard layout switching (Arabic/English)
 # Alt+Shift: Switch between layouts (default, configured in setup-arabic.sh)
@@ -172,37 +136,19 @@ for_window [class="^CopyQ$"] floating enable, resize set width 500 px, resize se
 for_window [instance="^copyq$"] floating enable, resize set width 500 px, resize set height 400 px, move position center
 for_window [instance="^CopyQ$"] floating enable, resize set width 500 px, resize set height 400 px, move position center
 
-# Screenshot tools - prevent layout shifts
-# Make flameshot GUI float and don't let it affect layout
-for_window [class="^flameshot$"] floating enable, sticky enable, border none
-for_window [class="^Flameshot$"] floating enable, sticky enable, border none
-# Prevent screenshot tools from affecting workspace layout
-no_focus [class="^flameshot$"]
-no_focus [class="^Flameshot$"]
-
-# Huion Tablet - force normal tiling window behavior
-# Make it tile (not float), remove sticky/always-on-top, enable normal window controls
-for_window [class="^huiontablet$"] floating disable, sticky disable
-for_window [instance="^huiontablet$"] floating disable, sticky disable
-for_window [class="^HuionTablet$"] floating disable, sticky disable
-for_window [instance="^HuionTablet$"] floating disable, sticky disable
-
 # start a terminal
 bindsym $mod+Return exec konsole
 
-# start terminal with tmux on workspace 9
-bindsym $mod+Shift+Return exec --no-startup-id "i3-msg 'workspace number 9; exec konsole -e tmux'"
-
 # kill focused window
-bindsym $mod+q kill
+bindsym $mod+Shift+q kill
 
 # start rofi launcher (themed)
 bindsym $mod+d exec --no-startup-id ~/.config/rofi/launchers/type-4/launcher.sh
 # Alternative: Use the script symlink (if added to PATH)
 # bindsym $mod+d exec --no-startup-id launcher_t7
 
-# start nemo file manager
-bindsym $mod+shift+f exec nemo
+# start nautlus file manager
+bindsym $mod+shift+f exec nautilus
 
 # open audio manager (pavucontrol)
 bindsym $mod+m exec --no-startup-id /home/taha/.config/polybar/scripts/open-volume.sh
@@ -297,12 +243,6 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# ============================================
-# Workspace Application Assignments
-# Note: Using workspace booster ($mod+Shift+w) instead of auto-assignments
-# This gives you full control over when to rebuild your workspace layout
-# ============================================
-
 # Cycle through workspaces (next/previous)
 # Next workspace
 bindsym $mod+Tab workspace next
@@ -314,16 +254,6 @@ bindsym $mod+comma workspace prev
 # Alternative: Cycle through workspaces on current output only
 # bindsym $mod+Tab workspace next_on_output
 # bindsym $mod+Shift+Tab workspace prev_on_output
-
-# Move workspace between monitors
-# Move current workspace to left monitor
-bindsym $mod+Ctrl+Left move workspace to output left
-# Move current workspace to right monitor
-bindsym $mod+Ctrl+Right move workspace to output right
-# Move current workspace to monitor above
-bindsym $mod+Ctrl+Up move workspace to output up
-# Move current workspace to monitor below
-bindsym $mod+Ctrl+Down move workspace to output down
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

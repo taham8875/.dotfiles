@@ -5,6 +5,9 @@
 # Keep your existing PATH and tools
 PATH="$PATH:$HOME/.rvm/bin"
 PATH="~/development/flutter/bin:$PATH"
+# Go paths (was in bash config, needed for zsh)
+PATH="$PATH:/usr/local/go/bin"
+PATH="$PATH:$HOME/go/bin"
 export PATH
 
 # RVM (Ruby Version Manager)
@@ -134,7 +137,73 @@ export EDITOR='vim'
 export VISUAL='vim'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+export LESS='-RFX'
+
+# =============================================
+# Custom Aliases
+# ===========================================
+alias gdsx='git diff --staged | xclip -selection clipboard'
+
+# =============================================
+# Custom Functions
+# ===========================================
+# Quick markdown viewer - converts md to PDF, opens in Edge, then deletes PDF
+mdview() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: mdview <markdown-file>"
+        return 1
+    fi
+
+    local md_file="$1"
+    
+    if [ ! -f "$md_file" ]; then
+        echo "Error: File '$md_file' not found"
+        return 1
+    fi
+
+    if ! command -v mdpdf &> /dev/null; then
+        echo "Error: mdpdf is not installed. Install it with: npm install -g mdpdf"
+        return 1
+    fi
+
+    local pdf_file="${md_file%.md}.pdf"
+    
+    echo "Converting $md_file to PDF..."
+    if ! mdpdf "$md_file"; then
+        echo "Error: Failed to convert markdown to PDF"
+        return 1
+    fi
+
+    if [ ! -f "$pdf_file" ]; then
+        echo "Error: PDF file was not created"
+        return 1
+    fi
+
+    echo "Opening PDF in Microsoft Edge..."
+    microsoft-edge "$pdf_file" &> /dev/null &
+
+    (
+        sleep 3
+        if [ -f "$pdf_file" ]; then
+            rm -f "$pdf_file"
+            echo "Cleaned up temporary PDF file"
+        fi
+    ) &
+
+    echo "PDF opened. It will be automatically deleted in a few seconds."
+}
+
 
 # ============================================
 # End of Configuration
 # ============================================
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /home/taha/.dart-cli-completion/zsh-config.zsh ]] && . /home/taha/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
+alias screenkey='screenkey --timeout 0.7'
+
+# opencode
+export PATH=/home/taha/.opencode/bin:$PATH

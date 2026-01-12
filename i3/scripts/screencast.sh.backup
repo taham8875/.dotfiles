@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# Screen recording script with area selection using slop
+# Supports: ffmpeg with slop for area selection
+
+SCREENCAST_DIR="$HOME/Videos/Screencasts"
+mkdir -p "$SCREENCAST_DIR"
+
+# Check if already recording
+RECORDING_FILE="/tmp/i3-screencast-recording"
+if [ -f "$RECORDING_FILE" ]; then
+    PID=$(cat "$RECORDING_FILE")
+    if kill -0 "$PID" 2>/dev/null; then
+        # Stop recording
+        kill "$PID" 2>/dev/null
+        rm -f "$RECORDING_FILE"
+        notify-send "Screencast" "Recording stopped. Saved to $SCREENCAST_DIR" 2>/dev/null
+        exit 0
+    else
+        rm -f "$RECORDING_FILE"
+    fi
+fi
+
+# Check for required tools
+if ! command -v ffmpeg &> /dev/null; then
+    notify-send "Screencast Error" "ffmpeg is not installed. Please install ffmpeg." 2>/dev/null || \
+        echo "Error: ffmpeg is not installed."
+    exit 1
+fi
+
+if ! command -v slop &> /dev/null; then
+    notify-send "Screencast Error" "slop is not installed. Please install slop for area selection." 2>/dev/null || \
+        echo "Error: slop is not installed."
+    exit 1
+fi
+
+# Get area selection using slop
+# Format: "X Y W H" (x position, y position, width, height)
+AREA=$(slop -f "%x %y %w %h" -b 2 -c 0.3,0.4,0.6,0.4 -l -q)
+
+# Check if user cancelled selection (slop returns empty string on cancel)
+if [ -z "$AREA" ]; then
+    # User cancelled, exit silently
+    exit 0
+fi
+
+# Parse area coordinates
+X=$(echo "$AREA" | awk '{print $1}')
+Y=$(echo "$AREA" | awk '{print $2}')
+W=$(echo "$AREA" | awk '{print $3}')
+H=$(echo "$AREA" | awk '{print $4}')
+
+# Validate coordinates
+if [ -z "$X" ] || [ -z "$Y" ] || [ -z "$W" ] || [ -z "$H" ]; then
+    notify-send "Screencast Error" "Failed to get area selection coordinates." 2>/dev/null || \
+        echo "Error: Failed to get area selection coordinates."
+    exit 1
+fi
+
+# Ensure minimum size
+if [ "$W" -lt 10 ] || [ "$H" -lt 10 ]; then
+    notify-send "Screencast Error" "Selected area is too small (minimum 10x10 pixels)." 2>/dev/null || \
+        echo "Error: Selected area is too small."
+    exit 1
+fi
+
+FILENAME="$SCREENCAST_DIR/screencast-$(date +%Y%m%d-%H%M%S).mp4"
+
+# Get audio source (try default, fallback to auto-detect)
+AUDIO_SOURCE="default"
+if ! pactl list sources short 2>/dev/null | grep -q "default"; then
+    AUDIO_SOURCE=$(pactl list sources short 2>/dev/null | grep -i "monitor\|output" | head -1 | awk '{print $2}' || echo "default")
+fi
+
+# Start recording with area selection
+# -f x11grab: capture X11 display
+# -s WxH: selected area size
+# -r 30: 30 fps
+# -i :0.0+X,Y: display with offset for selected area position
+# -f pulse: audio from PulseAudio
+# -vcodec libx264: video codec
+# -preset medium: good balance of quality and speed
+# -crf 23: good quality (lower = better quality, 18-28 is typical range)
+# -pix_fmt yuv420p: pixel format for compatibility
+# -acodec aac: audio codec
+# -b:a 192k: audio bitrate
+ffmpeg -f x11grab -s "${W}x${H}" -r 30 -i ":0.0+${X},${Y}" \
+       -f pulse -ac 2 -i "$AUDIO_SOURCE" \
+       -vcodec libx264 -preset medium -crf 23 \
+       -pix_fmt yuv420p \
+       -acodec aac -b:a 192k \
+       -threads 0 \
+       "$FILENAME" > /tmp/ffmpeg-screencast.log 2>&1 &
+FFMPEG_PID=$!
+echo $FFMPEG_PID > "$RECORDING_FILE"
+
+notify-send "Screencast" "Recording started (${W}x${H}@30fps)\nPress Ctrl+PrintScreen again to stop." 2>/dev/null
+exit 0

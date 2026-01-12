@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Configure idle behavior - keep computer running, lock after 6 hours
+# Configure idle behavior - keep computer running, lock after 4 hours
 
-# 6 hours in seconds = 21600
-IDLE_TIMEOUT=21600
+# 4 hours in seconds = 14400
+IDLE_TIMEOUT=14400
 
 # Configure DPMS (Display Power Management Signaling)
 # Format: xset dpms standby suspend off
-# This sets very long timeouts (6 hours) before screen powers off
+# This sets very long timeouts (4 hours) before screen powers off
 xset +dpms
 xset dpms 0 0 $IDLE_TIMEOUT
 
-# Configure screensaver (blank screen after 6 hours)
+# Configure screensaver (blank screen after 4 hours)
 xset s $IDLE_TIMEOUT $IDLE_TIMEOUT
 
 # Disable screensaver blanking (optional - uncomment if you want screen to never blank)
@@ -25,5 +25,5 @@ if command -v loginctl &> /dev/null; then
 fi
 
 # Log the configuration
-echo "$(date): Idle lock configured - will lock after $IDLE_TIMEOUT seconds (6 hours)" >> /tmp/i3-idle-config.log
+echo "$(date): Idle lock configured - will lock after $IDLE_TIMEOUT seconds (4 hours)" >> /tmp/i3-idle-config.log
 
