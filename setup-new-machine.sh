@@ -102,6 +102,21 @@ else
     echo -e "${GREEN}✓${NC} JetBrainsMono Nerd Font already installed"
 fi
 
+# Install Iosevka Nerd Font (required for rofi mono font)
+echo -e "\n${GREEN}==> Installing Iosevka Nerd Font...${NC}"
+if [ ! -d "$HOME/.local/share/fonts" ] || [ -z "$(fc-list | grep -i 'Iosevka Nerd Font')" ]; then
+    mkdir -p ~/.local/share/fonts
+    cd /tmp
+    wget -q --show-progress https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip
+    unzip -q Iosevka.zip -d Iosevka
+    cp Iosevka/*.ttf ~/.local/share/fonts/
+    fc-cache -fv ~/.local/share/fonts > /dev/null 2>&1
+    rm -rf Iosevka Iosevka.zip
+    echo -e "${GREEN}✓${NC} Iosevka Nerd Font installed"
+else
+    echo -e "${GREEN}✓${NC} Iosevka Nerd Font already installed"
+fi
+
 # Install terminal emulators
 echo -e "\n${GREEN}==> Installing terminal emulators...${NC}"
 sudo apt install -y \
@@ -198,6 +213,24 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || true
 else
     echo -e "${GREEN}✓${NC} oh-my-zsh already installed"
+fi
+
+# Install oh-my-zsh plugins
+echo -e "\n${GREEN}==> Installing oh-my-zsh plugins...${NC}"
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    echo -e "${GREEN}✓${NC} Installed zsh-autosuggestions"
+else
+    echo -e "${GREEN}✓${NC} zsh-autosuggestions already installed"
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    echo -e "${GREEN}✓${NC} Installed zsh-syntax-highlighting"
+else
+    echo -e "${GREEN}✓${NC} zsh-syntax-highlighting already installed"
 fi
 
 # Install Rust (for cargo)

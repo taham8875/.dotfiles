@@ -15,8 +15,8 @@ set $mod Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # Using pango font with Arabic support
-# Increased to 11.8 for 118% scaling (10 * 1.18 = 11.8)
-font pango:DejaVu Sans Mono 11.8
+# Increased to 12.5 for 125% scaling (10 * 1.25 = 12.5)
+font pango:DejaVu Sans Mono 12.5
 # Alternative Arabic-friendly fonts:
 # font pango:Noto Sans Arabic 10
 # font pango:Ubuntu 10
